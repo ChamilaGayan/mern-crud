@@ -1,42 +1,31 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import {BrowserRouter, Routes, Route,} from "react-router-dom";
+import AllPost from './components/AllPost';
+import CreatePost from './components/CreatePost';
+import EditPost from './components/EditPost';
+import Home from './components/Home';
+import NavBar from './components/NavBar';
+import PostDetails from './components/PostDetails';
+
+
 
 export default class App extends Component {
-constructor(props){
-  super(props);
-
-  this.state={
-    posts:[]
-  };
-}
-
-//execute method affter all component render
-componentDidMount(){
-  this.getPost();
-}
-
-getPost(){
-  axios.get("http://localhost:8000/posts").then(res => {
-    if(res.data.success){
-      this.setState({
-        posts:res.data.existingPosts
-      });
-      console.log(this.state.posts);
-    }
-  });
-}
-
   render() {
     return (
-      <div>
-        {this.state.posts.map(posts =>(
-          <div>
-            <p>{posts.topic}</p>
-            <p>{posts.description}</p>
-            <p>{posts.postCategory}</p>
-          </div>
-        ))}
-      </div>
+      <BrowserRouter>
+      <NavBar/>
+       <main className="container">
+        <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/add" element={<CreatePost/>} />
+            <Route path="/all" element={<AllPost/>} />
+            <Route path="/edit/:id" element={<EditPost/>} />
+            <Route path="//post/:id" element={<PostDetails/>} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+
+
     )
   }
 }
